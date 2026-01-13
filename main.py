@@ -3,13 +3,14 @@ import mediapipe as mp
 import PoseModule as pm
 import time
 import math
+import pyautogui
 
 cap = cv2.VideoCapture(0)
 pTime = 0
 detector = pm.poseDetector()
 
 def distance(point1,point2):
-    return math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2)
+    return int(math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2))
 
 while True:
     success,img = cap.read()
@@ -37,7 +38,13 @@ while True:
 
         print(f"upper distance: {upper_distance}")
         print(f"lower distance: {lower_distance}")
+        print("******************************************")
 
+        if upper_distance<250:
+            pyautogui.press('up')
+
+        elif lower_distance<150:
+            pyautogui.press('down')
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
